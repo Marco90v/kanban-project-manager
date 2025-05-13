@@ -3,6 +3,7 @@ import { Box, Flex } from '@chakra-ui/react';
 import Header from '@/components/layout/Header';
 // import Header from './Header';
 import Sidebar from '@/components/layout/Sidebar';
+import Modal from '@/components/ModalProject';
 
 const Layout = () => {
   return (
@@ -14,6 +15,7 @@ const Layout = () => {
           <Outlet />
         </Box>
       </Flex>
+      <Modal />
     </Flex>
   );
 };

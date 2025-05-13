@@ -1,11 +1,9 @@
-import { useState } from 'react';
 import { 
   Box, 
   Heading, 
   Text, 
   SimpleGrid, 
   Button, 
-  // useDisclosure, 
   Flex, 
   Spinner,
   Container,
@@ -14,21 +12,34 @@ import {
 import { PlusCircle } from 'lucide-react';
 import { useProjectStore } from '@/store/projectStore';
 import ProjectCard from '@/components/projects/ProjectCard';
-import ProjectFormModal from '@/components/projects/ProjectFormModal';
-// import LoadingSpinner from '@/components/ui/LoadingSpinner';
+import { useModalStore } from '@/store/modalStore';
+import { useShallow } from 'zustand/shallow';
+import ProjectBodyModal from '@/components/ProjectBodyModal';
 
 const Dashboard = () => {
-  // const projects:any = [];
-  // const isLoading:boolean = false;
+
+  const { setModal, setOpen:sOpen, setIsCreating } = useModalStore(
+    useShallow( (state => ({
+      setModal: state.setModal,
+      setOpen: state.setOpen,
+      setIsCreating: state.setIsCreating,
+    })))
+  );
+
   const { projects, isLoading } = useProjectStore();
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isOpen, setOpen] = useState(false);
-  const [isCreating, setIsCreating] = useState(false);
 
   const handleAddProject = () => {
-    setIsCreating(true);
+    // setIsCreating(true);
+    // setOpen(true);
     // onOpen();
-    setOpen(true);
+
+    setModal({
+      title: 'Create New Project',
+      body: <ProjectBodyModal />,
+      // saveButton: (data:ProjectFormValues) => {console.log('save button clicked', data)}
+    });
+    setIsCreating(true);
+    sOpen(true);
   };
 
   if (isLoading && projects.length === 0) {
@@ -63,7 +74,6 @@ const Dashboard = () => {
 
         <Button 
           colorScheme="brand" 
-          // leftIcon={<PlusCircle size={18} />}
           onClick={handleAddProject}
         >
           <PlusCircle size={18} />
@@ -98,12 +108,6 @@ const Dashboard = () => {
           ))}
         </SimpleGrid>
       )}
-
-      <ProjectFormModal 
-        isOpen={isOpen} 
-        onClose={()=>setOpen(false)}
-        isCreating={isCreating} 
-      />
     </Box>
   );
 };

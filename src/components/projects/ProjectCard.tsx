@@ -1,40 +1,28 @@
 import { useNavigate } from 'react-router';
-import { 
-  Box, 
-  Heading, 
-  Text, 
-  Flex, 
-  Icon, 
-  // useDisclosure,
-  Menu,
-  // MenuButton,
-  // MenuList,
-  // MenuItem,
-  // IconButton,
-  Button,
-  Portal,
-  Dialog,
-  CloseButton
-} from '@chakra-ui/react';
+import { Box, Heading, Text, Flex, Icon, Menu,Button,Portal } from '@chakra-ui/react';
 import { FolderKanban, MoreVertical, Edit, Trash } from 'lucide-react';
 import { formatDate } from '@/utils/helpers';
 import { Project } from '@/types';
-import ProjectFormModal from '@/components/projects/ProjectFormModal';
-// import DeleteConfirmationModal from '../ui/DeleteConfirmationModal';
-import { useProjectStore } from '../../store/projectStore';
-import { useState } from 'react';
+import { useModalStore } from '@/store/modalStore';
+import { useShallow } from 'zustand/shallow';
+import ProjectBodyModal from '../ProjectBodyModal';
 
 interface ProjectCardProps {
   project: Project;
 }
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
+
   const navigate = useNavigate();
-  const { deleteProject } = useProjectStore();
-  // const editModal = useDisclosure();
-  // const deleteModal = useDisclosure();
-  const [isOpen, setOpen] = useState(false);
-  const [isOpenDelete, setOpenDelete] = useState(false);
+
+  const { setModal, setOpen:sOpen, setId } = useModalStore(
+    useShallow( (state => ({
+      setModal: state.setModal,
+      setOpen: state.setOpen,
+      setId: state.setId,
+      setIsCreating: state.setIsCreating,
+    })))
+  );
 
   const handleClick = () => {
     navigate(`/projects/${project.id}`);
@@ -42,16 +30,23 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
-    // editModal.onOpen();
-    setOpen(true);
+    setModal({
+      title: 'Edit Project',
+      body: <ProjectBodyModal project={project} />,
+    })
+    sOpen(true);
   };
 
   const handleDelete = async (e: React.MouseEvent) => {
     e.stopPropagation();
-    // await deleteProject(project.id);
-    // deleteModal.onClose();
-    // console.log("handleDelete");
-    setOpenDelete(true);
+    if(project.id){
+      setModal({
+        title: 'Delete Project',
+        body: <ProjectBodyModal  />,
+      });
+      setId(project.id);
+      sOpen(true);
+    }
   };
 
   return (
@@ -116,65 +111,9 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         </Text>
 
         <Text color="gray.500" fontSize="xs">
-          Created: {formatDate(project.createdAt)}
+          Created: {project?.createdAt && formatDate(project?.createdAt) }
         </Text>
       </Box>
-
-      <ProjectFormModal 
-        // isOpen={editModal.isOpen} 
-        // onClose={editModal.onClose} 
-        isOpen={isOpen} 
-        onClose={()=>setOpen(false)}
-        isCreating={false}
-        project={project}
-      />
-
-      {/* <DeleteConfirmationModal
-        isOpen={deleteModal.isOpen}
-        onClose={deleteModal.onClose}
-        onConfirm={handleDelete}
-        title="Delete Project"
-        description="Are you sure you want to delete this project? This action cannot be undone, and all associated tasks will be permanently removed."
-      /> */}
-
-      <Dialog.Root lazyMount open={isOpenDelete} onOpenChange={()=>setOpenDelete(false)}>
-        {/* <Dialog.Trigger asChild>
-          <Button variant="outline" size="sm">
-            Open Dialog
-          </Button>
-        </Dialog.Trigger> */}
-        <Portal>
-          <Dialog.Backdrop />
-          <Dialog.Positioner>
-            <Dialog.Content>
-              <Dialog.Header>
-                <Dialog.Title>Delete Project</Dialog.Title>
-              </Dialog.Header>
-              <Dialog.Body>
-                <p>
-                  Are you sure you want to delete this project? This action cannot be undone, and all associated tasks will be permanently removed.
-                </p>
-              </Dialog.Body>
-              <Dialog.Footer>
-                <Dialog.ActionTrigger asChild>
-                  <Button variant="outline">Cancel</Button>
-                </Dialog.ActionTrigger>
-                <Button
-                  onClick={async () => {
-                    await deleteProject(project.id);
-                    setOpenDelete(false);
-                  }}
-                >Save</Button>
-              </Dialog.Footer>
-              <Dialog.CloseTrigger asChild>
-                <CloseButton size="sm" />
-              </Dialog.CloseTrigger>
-            </Dialog.Content>
-          </Dialog.Positioner>
-        </Portal>
-      </Dialog.Root>
-
-
 
     </>
   );

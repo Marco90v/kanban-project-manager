@@ -1,8 +1,8 @@
 export interface Project {
-  id: string;
   name: string;
-  description: string;
-  createdAt: string;
+  id?: string;
+  createdAt?: string;
+  description?: string;
 }
 
 export interface Task {
