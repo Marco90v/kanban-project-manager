@@ -1,10 +1,10 @@
-import { Box, Field, Fieldset, Input, VStack } from "@chakra-ui/react";
+import { Box, Fieldset, VStack } from "@chakra-ui/react";
 import { useFormContext } from "react-hook-form";
-// import { ProjectFormValues } from "@/schema/schema";
 import { Project } from '@/types';
 import { useEffect } from "react";
 import { useModalStore } from "@/store/modalStore";
 import { useShallow } from "zustand/shallow";
+import InputField from "@/components/InputField";
 
 const ProjectBodyModal = ({project}:{project?:Project}) => {
 
@@ -14,7 +14,7 @@ const ProjectBodyModal = ({project}:{project?:Project}) => {
       })))
     );
 
-  const { register, setValue, formState: { errors } } = useFormContext<Project>();
+  const { setValue } = useFormContext<Project>();
   
   useEffect(() => {
     if (project) {
@@ -37,33 +37,9 @@ const ProjectBodyModal = ({project}:{project?:Project}) => {
     <Box>
       <VStack gap={4}>
         <Fieldset.Root>
-
-          <Fieldset.Content>
-            <Field.Root invalid={!!errors.name} required>
-              <Field.Label>Project Name<Field.RequiredIndicator /></Field.Label>
-              <Input
-                {...register('name')}
-                autoFocus
-                placeholder="Enter project name"
-              />
-              <Field.ErrorText>{errors.name?.message}</Field.ErrorText>
-            </Field.Root>
-          </Fieldset.Content>
-
-          <Fieldset.Content>
-            <Field.Root invalid={!!errors.description} required={false}>
-              <Field.Label>Description<Field.RequiredIndicator /></Field.Label>
-              <Input
-                {...register('description')}
-                autoFocus
-                placeholder="Describe your project..."
-              />
-              <Field.ErrorText>{errors.description?.message}</Field.ErrorText>
-            </Field.Root>
-          </Fieldset.Content>
-
+          <InputField name="name" label="Project Name" required />
+          <InputField name="description" label="Description" required={false} />
         </Fieldset.Root>
-
       </VStack>
     </Box>
   );

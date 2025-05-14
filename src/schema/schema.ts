@@ -13,8 +13,10 @@ export const projectSchema = z.object({
 export const taskSchema = z.object({
   title: z.string().min(1, 'Task title is required').max(100, 'Task title must be less than 100 characters'),
   description: z.string().max(500, 'Description must be less than 500 characters').optional(),
-  status: z.enum(['todo', 'in-progress', 'done']),
-  priority: z.enum(['low', 'medium', 'high']),
+  // status: z.enum(['todo', 'in-progress', 'done']),
+  status: z.string({message: 'Task status is required'}).array(),
+  // priority: z.enum(['low', 'medium', 'high']),
+  priority: z.string({message: 'Task priority is required'}).array(),
   dueDate: z.string().optional(),
   assignee: z.string().optional(),
   id: z.string().optional(),
