@@ -6,13 +6,13 @@ export interface Project {
 }
 
 export interface Task {
-  id: string;
-  projectId: string;
+  id?: string;
+  projectId?: string;
   title: string;
-  description: string;
+  description?: string;
   status: 'todo' | 'in-progress' | 'done';
   priority: 'low' | 'medium' | 'high';
-  createdAt: string;
+  createdAt?: string;
   dueDate?: string;
   assignee?: string;
 }

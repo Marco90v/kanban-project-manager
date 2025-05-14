@@ -15,6 +15,7 @@ import ProjectCard from '@/components/projects/ProjectCard';
 import { useModalStore } from '@/store/modalStore';
 import { useShallow } from 'zustand/shallow';
 import ProjectBodyModal from '@/components/ProjectBodyModal';
+import ModalProject from '@/components/ModalProject';
 
 const Dashboard = () => {
 
@@ -108,6 +109,7 @@ const Dashboard = () => {
           ))}
         </SimpleGrid>
       )}
+      <ModalProject />
     </Box>
   );
 };

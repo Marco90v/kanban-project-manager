@@ -18,9 +18,23 @@ import { useProjectStore } from '@/store/projectStore';
 import KanbanBoard from '@/components/kanban/KanbanBoard';
 import TaskFormModal from '@/components/tasks/TaskFormModal';
 import ProjectSettingsModal from '@/components/projects/ProjectSettingsModal';
+import { useModalStore } from '@/store/modalStore';
+import { useShallow } from 'zustand/shallow';
+import TaskBodyModal from '@/components/TaskBodyModal';
+import ModalTask from '@/components/ModalTask';
 // import LoadingSpinner from '@/components/ui/LoadingSpinner';
 
 const ProjectBoard = () => {
+
+  const { setModal, setOpen:sOpen, setIsCreating } = useModalStore(
+    useShallow( (state => ({
+      setModal: state.setModal,
+      setOpen: state.setOpen,
+      setIsCreating: state.setIsCreating,
+    })))
+  );
+
+
   const { projectId } = useParams<{ projectId: string }>();
   const navigate = useNavigate();
   const { 
@@ -76,6 +90,17 @@ const ProjectBoard = () => {
     return null;
   }
 
+  const addTaks = () => {
+    // setTaskModal(true);
+    setModal({
+      title: 'Create New Project',
+      body: <TaskBodyModal />,
+      // saveButton: (data:ProjectFormValues) => {console.log('save button clicked', data)}
+    });
+    setIsCreating(true);
+    sOpen(true);
+  };
+
   return (
     <Box p={{ base: 4, md: 6 }} h="full">
       <Flex 
@@ -102,7 +127,7 @@ const ProjectBoard = () => {
           <Button 
             colorScheme="brand" 
             // leftIcon={<Plus size={18} />}
-            onClick={()=>setTaskModal(true)}
+            onClick={addTaks}
           >
             <Plus size={18} />
             Add Task
@@ -123,17 +148,19 @@ const ProjectBoard = () => {
       
       <KanbanBoard projectId={currentProject.id} />
       
-      <TaskFormModal 
+      {/* <TaskFormModal 
         isOpen={taskModal}
         onClose={()=>setTaskModal(false)}
         projectId={currentProject.id}
-      />
+      /> */}
       
       <ProjectSettingsModal 
         isOpen={settingsModal}
         onClose={()=>setSettingsModal(false)}
         project={currentProject}
       />
+
+      <ModalTask />
     </Box>
   );
 };

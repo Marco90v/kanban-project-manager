@@ -1,12 +1,12 @@
 import { ProjectFormValues, projectSchema } from "@/schema/schema";
 import { useModalStore } from "@/store/modalStore";
 import { useProjectStore } from "@/store/projectStore";
-import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { useShallow } from "zustand/shallow";
+import Modal from "./Modal";
 
-const Modal = () => {
+const ModalProject = () => {
 
   const methods = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema)
@@ -55,40 +55,18 @@ const Modal = () => {
   };
 
   return (
-    <FormProvider {...methods}>    
-      <Dialog.Root lazyMount open={isOpen} onOpenChange={onOpenChange} >
-        <Portal>
-          <Dialog.Backdrop />
-          <Dialog.Positioner>
-            <Dialog.Content>
-              <Dialog.Header>
-                <Dialog.Title>{title}</Dialog.Title>
-              </Dialog.Header>
-              <Dialog.Body>
-                {body}
-              </Dialog.Body>
-              <Dialog.Footer>
-                <Dialog.ActionTrigger asChild>
-                  <Button variant="ghost" mr={3}>Cancel</Button>
-                </Dialog.ActionTrigger>
-                <Button
-                  colorScheme="brand" 
-                  type="submit"
-                  loading={isSubmitting}
-                  onClick={handleSubmit(onSubmit)}
-                >
-                  Save
-                </Button>
-              </Dialog.Footer>
-              <Dialog.CloseTrigger asChild>
-                <CloseButton size="sm" />
-              </Dialog.CloseTrigger>
-            </Dialog.Content>
-          </Dialog.Positioner>
-        </Portal>
-      </Dialog.Root>
+    <FormProvider {...methods}>
+      <Modal
+        title={title}
+        body={body}
+        isOpen={isOpen}
+        onOpenChange={onOpenChange}
+        onClick={handleSubmit(onSubmit)}
+        isSubmitting={isSubmitting}
+      />
     </FormProvider>
+    
   )
 }
 
-export default Modal
+export default ModalProject
