@@ -10,8 +10,10 @@ export interface Task {
   projectId?: string;
   title: string;
   description?: string;
-  status: 'todo' | 'in-progress' | 'done';
-  priority: 'low' | 'medium' | 'high';
+  // status: 'todo' | 'in-progress' | 'done';
+  // priority: 'low' | 'medium' | 'high';
+  status: string[];
+  priority: string[];
   createdAt?: string;
   dueDate?: string;
   assignee?: string;

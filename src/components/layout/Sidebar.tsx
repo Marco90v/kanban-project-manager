@@ -8,13 +8,13 @@ import {
   Heading, 
   Icon, 
   useBreakpointValue,
-  useDisclosure,
-  Drawer,
+  // useDisclosure,
+  // Drawer,
   // DrawerOverlay,
-  DrawerContent,
+  // DrawerContent,
   // DrawerCloseButton,
-  DrawerHeader,
-  DrawerBody,
+  // DrawerHeader,
+  // DrawerBody,
 } from '@chakra-ui/react';
 import { 
   LayoutDashboard, 
@@ -24,12 +24,21 @@ import {
   Settings,
   ChevronRight
 } from 'lucide-react';
-import { useProjectStore } from '../../store/projectStore';
+// import { useProjectStore } from '../../store/projectStore';
+import { useMyStore } from '@/store/store';
+import { useShallow } from 'zustand/shallow';
 
 const Sidebar = () => {
+  const { projects } = useMyStore(
+    useShallow( (state => ({
+      projects: state.Projects
+    })))
+  );
+
+
   const navigate = useNavigate();
   const location = useLocation();
-  const { projects } = useProjectStore();
+  // const { projects } = useProjectStore();
   const isMobile = useBreakpointValue({ base: true, lg: false });
   // const { isOpen, onOpen, onClose } = useDisclosure();
   const [isOpen, setOpen] = useState(false);

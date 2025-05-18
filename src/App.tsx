@@ -3,15 +3,33 @@ import { Navigate, Route, Routes } from "react-router"
 import Layout from "@/components/layout/Layout"
 import Dashboard from "@/pages/Dashboard"
 import { useEffect } from "react";
-import { useProjectStore } from "./store/projectStore";
+// import { useProjectStore } from "./store/projectStore";
 import ProjectBoard from "@/pages/ProjectBoard";
+import { useMyStore } from "./store/store";
+import { useShallow } from "zustand/shallow";
+// import { get } from "react-hook-form";
+import { mockProjects, mockTasks } from "@/utils/const";
 
 function App() {
-   const { fetchProjects } = useProjectStore();
+
+  const { setProjects, setTasks } = useMyStore(
+    useShallow( (state => ({
+      setProjects: state.setProjects,
+      setTasks: state.setTasks,
+    })))
+  );
 
   useEffect(() => {
-    fetchProjects();
-  }, [fetchProjects]);
+    setProjects(mockProjects);
+    setTasks(mockTasks);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // const { fetchProjects } = useProjectStore();
+
+  // useEffect(() => {
+  //   fetchProjects();
+  // }, [fetchProjects]);
 
   return (
     <Box minH="100vh">

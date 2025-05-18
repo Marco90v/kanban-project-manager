@@ -1,3 +1,6 @@
+import { TaskFormValues } from "@/schema/schema";
+import { Board, Task } from "@/types";
+
 export const generateId = (): string => {
   return Math.random().toString(36).substring(2, 11);
 };
@@ -35,3 +38,19 @@ export const getStatusOptions = () => [
   { value: 'in-progress', label: 'In Progress' },
   { value: 'done', label: 'Done' }
 ];
+
+export const createBoardFromTasks = (projectId: string, tasks: TaskFormValues[]): Board => {
+  const todoTasks = tasks.filter(task => task.projectId === projectId && task.status[0] === 'todo');
+  const inProgressTasks = tasks.filter(task => task.projectId === projectId && task.status[0] === 'in-progress');
+  const doneTasks = tasks.filter(task => task.projectId === projectId && task.status[0] === 'done');
+
+  return {
+    id: generateId(),
+    projectId,
+    columns: [
+      { id: 'todo', title: 'To Do', tasks: todoTasks },
+      { id: 'in-progress', title: 'In Progress', tasks: inProgressTasks },
+      { id: 'done', title: 'Done', tasks: doneTasks },
+    ],
+  };
+};

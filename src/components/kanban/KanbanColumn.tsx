@@ -18,7 +18,6 @@ import SortableTaskList from './SortableTaskList';
 
 interface KanbanColumnProps {
   column: Column;
-  projectId: string;
 }
 
 const getColumnColor = (columnId: string) => {
@@ -34,7 +33,7 @@ const getColumnColor = (columnId: string) => {
   }
 };
 
-const KanbanColumn = ({ column, projectId }: KanbanColumnProps) => {
+const KanbanColumn = ({ column }: KanbanColumnProps) => {
   const { moveTask } = useProjectStore();
   const colorScheme = getColumnColor(column.id);
 

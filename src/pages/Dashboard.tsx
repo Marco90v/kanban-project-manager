@@ -1,63 +1,55 @@
-import { 
-  Box, 
-  Heading, 
-  Text, 
-  SimpleGrid, 
-  Button, 
-  Flex, 
-  Spinner,
-  Container,
-  VStack
-} from '@chakra-ui/react';
+import { Box, Heading, Text, SimpleGrid, Button, Flex } from '@chakra-ui/react';
 import { PlusCircle } from 'lucide-react';
-import { useProjectStore } from '@/store/projectStore';
 import ProjectCard from '@/components/projects/ProjectCard';
 import { useModalStore } from '@/store/modalStore';
 import { useShallow } from 'zustand/shallow';
 import ProjectBodyModal from '@/components/ProjectBodyModal';
 import ModalProject from '@/components/ModalProject';
+import { useMyStore } from '@/store/store';
 
 const Dashboard = () => {
 
-  const { setModal, setOpen:sOpen, setIsCreating } = useModalStore(
+  const { setModal, setOpen:sOpen, setIsCreating, setType } = useModalStore(
     useShallow( (state => ({
       setModal: state.setModal,
       setOpen: state.setOpen,
       setIsCreating: state.setIsCreating,
+      setType: state.setType,
     })))
   );
 
-  const { projects, isLoading } = useProjectStore();
+  const { projects } = useMyStore(
+    useShallow( (state => ({
+      projects: state.Projects
+    })))
+  );
+
 
   const handleAddProject = () => {
-    // setIsCreating(true);
-    // setOpen(true);
-    // onOpen();
-
     setModal({
       title: 'Create New Project',
       body: <ProjectBodyModal />,
-      // saveButton: (data:ProjectFormValues) => {console.log('save button clicked', data)}
     });
+    setType('project');
     setIsCreating(true);
     sOpen(true);
   };
 
-  if (isLoading && projects.length === 0) {
-    // return <LoadingSpinner size="xl" />;
-    return(
-      <Container maxW="100vw" h="100vh" p={0} centerContent>
-        <VStack 
-          wordSpacing={8}
-          w={{ base: "90%", md: "450px" }}
-          justify="center"
-          h="100%"
-        >
-          <Spinner size='xl' />
-        </VStack>
-      </Container>
-    )
-  }
+  // if (isLoading && projects.length === 0) {
+  //   // return <LoadingSpinner size="xl" />;
+  //   return(
+  //     <Container maxW="100vw" h="100vh" p={0} centerContent>
+  //       <VStack 
+  //         wordSpacing={8}
+  //         w={{ base: "90%", md: "450px" }}
+  //         justify="center"
+  //         h="100%"
+  //       >
+  //         <Spinner size='xl' />
+  //       </VStack>
+  //     </Container>
+  //   )
+  // }
 
   return (
     <Box p={{ base: 4, md: 6 }}>
@@ -105,11 +97,12 @@ const Dashboard = () => {
         >
           {projects.map(project => (
             <ProjectCard key={project.id} project={project} />
-            // <h1>ProjectCard</h1>
           ))}
         </SimpleGrid>
       )}
+
       <ModalProject />
+      
     </Box>
   );
 };

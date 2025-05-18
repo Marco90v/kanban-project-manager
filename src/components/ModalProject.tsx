@@ -1,19 +1,21 @@
 import { ProjectFormValues, projectSchema } from "@/schema/schema";
 import { useModalStore } from "@/store/modalStore";
-import { useProjectStore } from "@/store/projectStore";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormProvider, useForm } from "react-hook-form";
 import { useShallow } from "zustand/shallow";
-import Modal from "./Modal";
+import Modal from "@/components/Modal";
+import { useNavigate } from "react-router";
+import { useMyStore } from "@/store/store";
 
 const ModalProject = () => {
+  const navigate = useNavigate();
 
   const methods = useForm<ProjectFormValues>({
     resolver: zodResolver(projectSchema)
   });
   const { handleSubmit, reset, formState: { isSubmitting }  } = methods;
 
-  const { title, body, isOpen, id,isCreating, setOpen, resetStore } = useModalStore(
+  const { title, body, isOpen, id,isCreating, setOpen, resetStore, redirect } = useModalStore(
     useShallow( (state => ({
       title: state.title,
       body: state.body,
@@ -22,13 +24,15 @@ const ModalProject = () => {
       isCreating: state.isCreating,
       setOpen: state.setOpen,
       resetStore: state.resetStore,
+      redirect: state.redirect,
     })))
   );
-  const { addProject, updateProject, deleteProject } = useProjectStore(
+
+  const { addProject, updateProject, deleteProject } = useMyStore(
     useShallow( (state => ({
       addProject: state.addProject,
       updateProject: state.updateProject,
-      deleteProject: state.deleteProject
+      deleteProject: state.deleteProject,
     })))
   );
 
@@ -36,20 +40,22 @@ const ModalProject = () => {
     reset();
     resetStore()
     setOpen(false);
+    if(redirect){
+      navigate(redirect);
+    }
   };
 
   const onSubmit = async (data: ProjectFormValues) => {
-    // console.log('submit', data);
     if(id){
-      // console.log('delete project', id);
-      await deleteProject(id);
+      deleteProject(id);
     }
     if(isCreating){
-      // console.log('submit', data);
-      await addProject(data);
+      addProject(data);
     }else{
-      // // console.log('submit', data);
-      await updateProject(data)
+      updateProject(data)
+    }
+    if(redirect){
+      navigate(redirect);
     }
     onOpenChange();
   };

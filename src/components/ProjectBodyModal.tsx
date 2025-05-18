@@ -6,13 +6,17 @@ import { useModalStore } from "@/store/modalStore";
 import { useShallow } from "zustand/shallow";
 import InputField from "@/components/InputField";
 
-const ProjectBodyModal = ({project}:{project?:Project}) => {
+interface ProjectBodyModalProps {
+  project?: Project;
+}
+
+const ProjectBodyModal = ({project}:ProjectBodyModalProps) => {
 
   const { id } = useModalStore(
-      useShallow( (state => ({
-        id: state.id,
-      })))
-    );
+    useShallow( (state => ({
+      id: state.id,
+    })))
+  );
 
   const { setValue } = useFormContext<Project>();
   

@@ -15,12 +15,13 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 
   const navigate = useNavigate();
 
-  const { setModal, setOpen:sOpen, setId } = useModalStore(
+  const { setModal, setOpen:sOpen, setId, setType } = useModalStore(
     useShallow( (state => ({
       setModal: state.setModal,
       setOpen: state.setOpen,
       setId: state.setId,
       setIsCreating: state.setIsCreating,
+      setType: state.setType,
     })))
   );
 
@@ -44,6 +45,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         title: 'Delete Project',
         body: <ProjectBodyModal  />,
       });
+      setType('project');
       setId(project.id);
       sOpen(true);
     }

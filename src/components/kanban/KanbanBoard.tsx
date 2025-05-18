@@ -26,6 +26,7 @@ const KanbanBoard = ({ projectId }: KanbanBoardProps) => {
       fetchBoard(projectId);
     }
   }, [projectId, board, fetchBoard]);
+  // console.log('board', board);
 
   if (isLoading && !board) {
     // return <LoadingSpinner />;
