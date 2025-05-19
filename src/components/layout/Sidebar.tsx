@@ -1,30 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router';
-import { 
-  Box, 
-  VStack, 
-  Text, 
-  Flex, 
-  Heading, 
-  Icon, 
-  useBreakpointValue,
-  // useDisclosure,
-  // Drawer,
-  // DrawerOverlay,
-  // DrawerContent,
-  // DrawerCloseButton,
-  // DrawerHeader,
-  // DrawerBody,
-} from '@chakra-ui/react';
-import { 
-  LayoutDashboard, 
-  FolderKanban,
-  Users,
-  Calendar,
-  Settings,
-  ChevronRight
-} from 'lucide-react';
-// import { useProjectStore } from '../../store/projectStore';
+import { Box, VStack, Text, Flex, Heading, Icon, useBreakpointValue, Drawer, Portal, CloseButton } from '@chakra-ui/react';
+import { LayoutDashboard, FolderKanban, Users, Calendar, Settings, ChevronRight, LucideIcon } from 'lucide-react';
 import { useMyStore } from '@/store/store';
 import { useShallow } from 'zustand/shallow';
 
@@ -35,21 +12,15 @@ const Sidebar = () => {
     })))
   );
 
-
   const navigate = useNavigate();
   const location = useLocation();
-  // const { projects } = useProjectStore();
   const isMobile = useBreakpointValue({ base: true, lg: false });
-  // const { isOpen, onOpen, onClose } = useDisclosure();
   const [isOpen, setOpen] = useState(false);
 
   // Close drawer when navigating on mobile
   useEffect(() => {
-    if (isMobile && isOpen) {
-      // onClose();
-      setOpen(false);
-    }
-  }, [location.pathname, isMobile, isOpen, setOpen]);
+    setOpen(false);
+  }, [location.pathname, isMobile, setOpen]);
 
   const sidebarContent = (
     <VStack align="stretch" gap={6} py={6}>
@@ -113,7 +84,8 @@ const Sidebar = () => {
           left={4} 
           bottom={4} 
           zIndex={20}
-          bg="brand.500" 
+          bg="brand.500"
+          // bg="red.500" 
           color="white"
           w={12}
           h={12}
@@ -127,22 +99,29 @@ const Sidebar = () => {
         >
           <ChevronRight size={24} />
         </Box>
-        
-        {/* <Drawer isOpen={isOpen} placement="left" onClose={onClose}>
-          <DrawerOverlay />
-          <DrawerContent>
-            <DrawerCloseButton />
-            <DrawerHeader borderBottomWidth="1px">
-              <Flex align="center">
-                <FolderKanban size={20} color="#30BFCD" />
-                <Text ml={2} fontWeight="bold" color="brand.500">
-                  KanbanFlow
-                </Text>
-              </Flex>
-            </DrawerHeader>
-            <DrawerBody p={0}>{sidebarContent}</DrawerBody>
-          </DrawerContent>
-        </Drawer> */}
+
+        <Drawer.Root placement='start' open={isOpen} onOpenChange={(e) => setOpen(e.open)} >
+          <Portal>
+            <Drawer.Backdrop />
+            <Drawer.Positioner>
+              <Drawer.Content>
+                <Drawer.Header borderBottomWidth="1px">
+                  {/* <Drawer.Title>Drawer Title</Drawer.Title> */}
+                   <Flex align="center">
+                    <FolderKanban size={20} color="#30BFCD" />
+                    <Drawer.Title ml={2} fontWeight="bold" color="brand.500">
+                      KanbanFlow
+                    </Drawer.Title>
+                  </Flex>
+                </Drawer.Header>
+                <Drawer.Body p={0}>{sidebarContent}</Drawer.Body>
+                <Drawer.CloseTrigger asChild>
+                  <CloseButton size="sm" />
+                </Drawer.CloseTrigger>
+              </Drawer.Content>
+            </Drawer.Positioner>
+          </Portal>
+        </Drawer.Root>
       </>
     );
   }
@@ -165,7 +144,7 @@ const Sidebar = () => {
 };
 
 interface SidebarItemProps {
-  icon: any;
+  icon: LucideIcon;
   label: string;
   isActive: boolean;
   onClick: () => void;
