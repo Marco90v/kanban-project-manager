@@ -48,7 +48,7 @@ const ProjectBoard = () => {
     const p = projects.find(p => p.id === projectId);
     setProject(p);
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [projectId]);
 
   const [settingsModal, setSettingsModal] = useState(false);
 
