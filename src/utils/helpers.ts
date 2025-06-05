@@ -1,5 +1,5 @@
 import { TaskFormValues } from "@/schema/schema";
-import { Board, Task } from "@/types";
+import { Board } from "@/types";
 
 export const generateId = (): string => {
   return Math.random().toString(36).substring(2, 11);

@@ -4,13 +4,15 @@ import { Task } from '../../types';
 import { useModalStore } from '@/store/modalStore';
 import { useShallow } from 'zustand/shallow';
 import TaskBodyModal from '@/components/TaskBodyModal';
+import { memo } from 'react';
 
 interface TaskCardProps {
   task: Task;
-  isDragging?: boolean;
+  // isDragging?: boolean;
 }
 
-const TaskCard = ({ task, isDragging = false }: TaskCardProps) => {
+const TaskCard = memo(({ task }: TaskCardProps) => {
+  // console.log("TaskCard");
   const { setModal, setOpen:sOpen, setId, setType } = useModalStore(
     useShallow( (state => ({
       setModal: state.setModal,
@@ -46,15 +48,15 @@ const TaskCard = ({ task, isDragging = false }: TaskCardProps) => {
       <Box
         bg="white"
         borderRadius="md"
-        boxShadow={isDragging ? 'lg' : 'sm'}
+        // boxShadow={false ? 'lg' : 'sm'}
         p={4}
         mb={3}
-        opacity={isDragging ? 0.8 : 1}
-        transform={isDragging ? 'scale(1.02)' : 'scale(1)'}
+        // opacity={isDragging ? 0.8 : 1}
+        // transform={isDragging ? 'scale(1.02)' : 'scale(1)'}
         transition="all 0.2s"
         cursor="grab"
         position="relative"
-        _hover={{ boxShadow: 'md' }}
+        // _hover={{ boxShadow: 'md' }}
       >
         <Menu.Root>
           <Menu.Trigger asChild>
@@ -130,6 +132,6 @@ const TaskCard = ({ task, isDragging = false }: TaskCardProps) => {
       </Box>
     </>
   );
-};
+});
 
 export default TaskCard;

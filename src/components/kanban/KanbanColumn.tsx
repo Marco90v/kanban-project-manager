@@ -5,16 +5,20 @@ import {
   Badge,
 } from '@chakra-ui/react';
 import { 
-  DndContext, 
-  DragEndEvent,
-  MouseSensor,
-  TouchSensor,
-  useSensor,
-  useSensors
+  // DndContext, 
+  // DragEndEvent,
+  // MouseSensor,
+  // TouchSensor,
+  useDroppable,
+  // useSensor,
+  // useSensors
 } from '@dnd-kit/core';
 import { Column } from '../../types';
-import { useProjectStore } from '../../store/projectStore';
-import SortableTaskList from './SortableTaskList';
+// import { useProjectStore } from '../../store/projectStore';
+// import SortableTaskList from './SortableTaskList';
+import { Flex } from '@chakra-ui/react';
+import DraggableTaskCard from './DraggableTaskCard';
+import { memo } from 'react';
 
 interface KanbanColumnProps {
   column: Column;
@@ -33,43 +37,20 @@ const getColumnColor = (columnId: string) => {
   }
 };
 
-const KanbanColumn = ({ column }: KanbanColumnProps) => {
-  const { moveTask } = useProjectStore();
+const KanbanColumn = memo(({ column }: KanbanColumnProps) => {
+
+  const {isOver, setNodeRef} = useDroppable({
+    id: column.id,
+    // data: column,
+  });
+
   const colorScheme = getColumnColor(column.id);
-
-  // Configure sensors for drag detection
-  const mouseSensor = useSensor(MouseSensor, {
-    activationConstraint: {
-      distance: 5, // 5px movement before drag starts
-    },
-  });
-  
-  const touchSensor = useSensor(TouchSensor, {
-    activationConstraint: {
-      delay: 250, // 250ms delay on touch devices
-      tolerance: 5, // 5px movement allowed during delay
-    },
-  });
-  
-  const sensors = useSensors(mouseSensor, touchSensor);
-
-  const handleDragEnd = (event: DragEndEvent) => {
-    const { active, over } = event;
-    
-    if (over && active.id !== over.id) {
-      const taskId = active.id as string;
-      const sourceColumn = column.id;
-      const destinationColumn = over.id as string;
-      
-      moveTask(taskId, sourceColumn, destinationColumn);
-    }
-  };
 
   return (
     <Box 
-      bg="gray.50" 
+      bg={isOver ? "green.50" : "gray.50"} 
       borderRadius="md"
-      h="full"
+      // h="full"
       display="flex"
       flexDirection="column"
     >
@@ -97,37 +78,30 @@ const KanbanColumn = ({ column }: KanbanColumnProps) => {
       <Box 
         p={3} 
         flex="1" 
-        overflowY="auto"
-        maxH={{ base: 'auto', md: 'calc(100vh - 240px)' }}
+        // overflowY="auto"
+        // maxH={{ base: 'auto', md: 'calc(100vh - 240px)' }}
       >
-        <DndContext
-          sensors={sensors}
-          onDragEnd={handleDragEnd}
-        >
-          <SortableTaskList 
-            id={column.id}
-            items={column.tasks}
-          />
-        </DndContext>
-        
-        {column.tasks.length === 0 && (
-          <Box 
-            py={4} 
-            px={2} 
-            textAlign="center" 
-            color="gray.400"
-            border="2px dashed"
-            borderColor="gray.200"
-            borderRadius="md"
-          >
-            <Text fontSize="sm">Drop tasks here</Text>
-          </Box>
-        )}
+        <div ref={setNodeRef} style={{height:'100%'}}>
+          {column.tasks.map(task => (
+            <DraggableTaskCard key={task.id} task={task} />
+          ))}
+          {column.tasks.length === 0 && (
+            <Box 
+              py={4} 
+              px={2} 
+              textAlign="center" 
+              color="gray.400"
+              border="2px dashed"
+              borderColor="gray.200"
+              borderRadius="md"
+            >
+              <Text fontSize="sm">Drop tasks here</Text>
+            </Box>
+          )}
+        </div>
       </Box>
     </Box>
   );
-};
-
-import { Flex } from '@chakra-ui/react';
+});
 
 export default KanbanColumn;
