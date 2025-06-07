@@ -5,6 +5,7 @@ import { useModalStore } from '@/store/modalStore';
 import { useShallow } from 'zustand/shallow';
 import TaskBodyModal from '@/components/TaskBodyModal';
 import { memo } from 'react';
+import { colors } from '@/utils/const';
 
 interface TaskCardProps {
   task: Task;
@@ -12,7 +13,7 @@ interface TaskCardProps {
 }
 
 const TaskCard = memo(({ task }: TaskCardProps) => {
-  // console.log("TaskCard");
+  // console.log("TaskCard", task);
   const { setModal, setOpen:sOpen, setId, setType } = useModalStore(
     useShallow( (state => ({
       setModal: state.setModal,
@@ -46,7 +47,8 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
   return (
     <>
       <Box
-        bg="white"
+        // bg="white"
+        bg={{base:"white", _dark:colors.bgDark}}
         borderRadius="md"
         // boxShadow={false ? 'lg' : 'sm'}
         p={4}
@@ -109,7 +111,7 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
 
         <Flex justify="space-between" alignItems="center">
           <Badge 
-            colorScheme={
+            colorPalette={
               task.priority[0] === 'high' ? 'red' : 
               task.priority[0] === 'medium' ? 'orange' : 
               'green'
@@ -119,6 +121,8 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
             py={1}
             borderRadius="full"
             fontSize="xs"
+            fontWeight="bold"
+            textTransform="uppercase"
           >
             {task.priority[0].charAt(0).toUpperCase() + task.priority[0].slice(1)}
           </Badge>

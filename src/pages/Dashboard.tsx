@@ -6,6 +6,7 @@ import { useShallow } from 'zustand/shallow';
 import ProjectBodyModal from '@/components/ProjectBodyModal';
 import ModalProject from '@/components/ModalProject';
 import { useMyStore } from '@/store/store';
+import { colors } from '@/utils/const';
 
 const Dashboard = () => {
 
@@ -61,12 +62,17 @@ const Dashboard = () => {
         gap={4}
       >
         <Box>
-          <Heading size="lg" mb={1}>Projects</Heading>
+          <Heading size="4xl" fontWeight={600} mb={1}>Projects</Heading>
           <Text color="gray.600">Manage your projects and tasks</Text>
         </Box>
 
         <Button 
-          colorScheme="brand" 
+          // colorScheme="brand" 
+          // bg={{base:"#E6F8FA", _dark:"#30BFCD"}}
+          // color={{base:"#30BFCD", _dark:"white"}}
+          bg={colors.brand500}
+          color="white"
+          fontWeight="bold"
           onClick={handleAddProject}
         >
           <PlusCircle size={18} />
@@ -78,13 +84,14 @@ const Dashboard = () => {
         <Box 
           p={8} 
           textAlign="center" 
-          bg="white" 
+          bg={{base:"white", _dark:colors.bgDark}}
           borderRadius="lg" 
           boxShadow="md"
         >
           <Text mb={4} fontSize="lg">No projects yet. Create your first project to get started!</Text>
           <Button 
-            colorScheme="brand" 
+            bg={colors.brand500}
+            fontWeight="bold"
             onClick={handleAddProject}
           >
             Create Project

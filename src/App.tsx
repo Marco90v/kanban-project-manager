@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import ProjectBoard from "@/pages/ProjectBoard";
 import { useMyStore } from "./store/store";
 import { useShallow } from "zustand/shallow";
-import { mockProjects, mockTasks } from "@/utils/const";
+import { colors, mockProjects, mockTasks } from "@/utils/const";
 
 function App() {
 
@@ -26,7 +26,7 @@ function App() {
   }, []);
 
   return (
-    <Box minH="100vh">
+    <Box minH="100vh" bg={{base:"gray.50", _dark:colors.bgDark}} color={{base:"gray.800", _dark:"white"}}>
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Navigate to="/dashboard" replace />} />

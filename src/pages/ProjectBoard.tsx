@@ -13,6 +13,7 @@ import ModalProject from '@/components/ModalProject';
 import Board from '@/components/Board';
 import { useMyStore } from '@/store/store';
 import { ProjectFormValues } from '@/schema/schema';
+import { colors } from '@/utils/const';
 
 const ProjectBoard = () => {
 
@@ -104,7 +105,14 @@ const ProjectBoard = () => {
         </Flex>
 
         <Flex gap={3}>
-          <Button colorScheme="brand" onClick={addTaks}>
+          <Button
+            onClick={addTaks}
+            // bg={{base:"#E6F8FA", _dark:"#30BFCD"}}
+            // color={{base:"#30BFCD", _dark:"white"}}
+            bg={colors.brand500}
+            color="white"
+            fontWeight="bold"
+          >
             <Plus size={18} />
             Add Task
           </Button>

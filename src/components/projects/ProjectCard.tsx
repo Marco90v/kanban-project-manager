@@ -6,6 +6,7 @@ import { Project } from '@/types';
 import { useModalStore } from '@/store/modalStore';
 import { useShallow } from 'zustand/shallow';
 import ProjectBodyModal from '../ProjectBodyModal';
+import { colors } from '@/utils/const';
 
 interface ProjectCardProps {
   project: Project;
@@ -54,7 +55,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
   return (
     <>
       <Box 
-        bg="white" 
+        bg={{base:"white", _dark:colors.bgCard}}
         borderRadius="lg" 
         boxShadow="md" 
         p={5}
@@ -104,11 +105,11 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         </Menu.Root>
 
         <Flex align="center" mb={3}>
-          <Icon as={FolderKanban} color="brand.500" boxSize={6} mr={2} />
+          <Icon as={FolderKanban} color={colors.brand500} boxSize={6} mr={2} />
           <Heading size="md">{project.name}</Heading>
         </Flex>
 
-        <Text color="gray.600" fontSize="sm" mb={4} >
+        <Text color={{base:"gray.600", _dark:"gray.400"}} fontSize="sm" mb={4} >
           {project.description}
         </Text>
 

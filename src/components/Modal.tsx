@@ -1,4 +1,5 @@
 import { useModalStore } from "@/store/modalStore";
+import { colors } from "@/utils/const";
 import { Button, CloseButton, Dialog, Portal } from "@chakra-ui/react"
 import { useEffect, useRef } from "react";
 import { useShallow } from "zustand/shallow";
@@ -42,10 +43,12 @@ function Modal({title, body, isOpen, onOpenChange, onClick, isSubmitting}:ModalP
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
-                <Button variant="ghost" mr={3}>Cancel</Button>
+                <Button variant="ghost" fontWeight="bold" color={{base:"gray.600", _dark:"white"}} mr={3}>Cancel</Button>
               </Dialog.ActionTrigger>
               <Button
-                colorScheme="brand" 
+                bg={colors.brand500}
+                color="white"
+                fontWeight="bold"
                 type="submit"
                 loading={isSubmitting}
                 onClick={onClick}

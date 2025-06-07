@@ -41,8 +41,8 @@ const ProjectBodyModal = ({project}:ProjectBodyModalProps) => {
     <Box>
       <VStack gap={4}>
         <Fieldset.Root>
-          <InputField name="name" label="Project Name" required />
-          <InputField name="description" label="Description" required={false} />
+          <InputField name="name" label="Project Name" placeholder="Enter project name" required={true} />
+          <InputField name="description" label="Description" placeholder="Describe your project..." />
         </Fieldset.Root>
       </VStack>
     </Box>

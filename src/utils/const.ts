@@ -72,3 +72,31 @@ export const mockTasks: TaskFormValues[] = [
     createdAt: new Date().toISOString(),
   },
 ];
+
+// export const colors = [
+//   {'brand.500': '#30BFCD'},
+//   {'brand.600': '#2699A4'},
+//   {'brand.700': '#1D737B'},
+//   {'brand.800': '#134C52'},
+//   {'brand.900': '#0A2629'},
+//   {'accent.500': '#9064F3'},
+//   {'accent.600': '#7450C2'},
+//   {'accent.700': '#573C92'},
+//   {'accent.800': '#3B2861'},
+//   {'accent.900': '#1D1431'},
+//   {'dark': '#111111'},
+// ];
+export const colors = {
+  brand500: '#30BFCD',
+  // brand600: '#2699A4',
+  // brand700: '#1D737B',
+  // brand800: '#134C52',
+  // brand900: '#0A2629',
+  // accent500: '#9064F3',
+  // accent600: '#7450C2',
+  // accent700: '#573C92',
+  // accent800: '#3B2861',
+  // accent900: '#1D1431',
+  bgDark: '#111111',
+  bgCard: '#181818',
+};

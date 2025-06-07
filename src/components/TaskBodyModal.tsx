@@ -63,12 +63,12 @@ const TaskBodyModal = ({ task }: ModalTaskProps) => {
   return(
     <VStack gap={4}>
       <Fieldset.Root>
-        <InputField name="title" label="Task Title" required />
-        <InputField name="description" label="Description" required={false} />
-        <ControllerSelect name="status" selects={statusOptions2} />
-        <ControllerSelect name="priority" selects={priorityOptions2} />   
-        <InputField name="dueDate" label="Due Date" required={false} />
-        <InputField name="assignee" label="Assignee" required={false} />
+        <InputField name="title" label="Task Title" placeholder="Enter task title" required={true} />
+        <InputField name="description" label="Description" placeholder="Enter task description" required={true} />
+        <ControllerSelect name="status" label="Status" selects={statusOptions2} placeholder="Select task status" />
+        <ControllerSelect name="priority" label="Priority" selects={priorityOptions2} placeholder="Select task priority" />
+        <InputField name="dueDate" label="Due Date" required={false} placeholder="Enter due date" type="date" />
+        <InputField name="assignee" label="Assignee" required={false} placeholder="Enter assignee" />
       </Fieldset.Root>
     </VStack>
   )

@@ -67,7 +67,7 @@ function Board({projectId}:BoardProps) {
   return (
     <Box h="full" overflowX={{ base: 'auto', lg: 'visible' }}>
       <SimpleGrid 
-        columns={{ base: 1, md: 3 }} 
+        columns={{ base: 1, md: boards?.columns.length || 3 }} 
         gap={columnSpacing}
         minW={{ base: '100%', md: 'auto' }}
         h="full"

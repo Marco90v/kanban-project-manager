@@ -6,13 +6,15 @@ import { useShallow } from "zustand/shallow";
 
 interface Props {
   name: 'status' | 'priority';
+  label: string;
   selects: ListCollection<{
     value: string;
     label: string;
   } >
+  placeholder?: string;
 }
 
-function ControllerSelect({name, selects}:Props) {
+function ControllerSelect({name, label, selects, placeholder=""}:Props) {
   const { contentRef } = useModalStore(
     useShallow( (state => ({
       contentRef: state.contentRef,
@@ -22,7 +24,7 @@ function ControllerSelect({name, selects}:Props) {
   return (
     <Fieldset.Content>
       <Field.Root invalid={!!errors.status} required>
-        <Field.Label>Status<Field.RequiredIndicator /></Field.Label>
+        <Field.Label>{label}<Field.RequiredIndicator /></Field.Label>
         <Controller
           control={control}
           name={name}
@@ -35,10 +37,10 @@ function ControllerSelect({name, selects}:Props) {
               collection={selects}
             >
               <Select.HiddenSelect />
-              <Select.Label>Select task status</Select.Label>
+              {/* <Select.Label>Select task status</Select.Label> */}
               <Select.Control>
                 <Select.Trigger>
-                  <Select.ValueText placeholder="Select task status" />
+                  <Select.ValueText placeholder={placeholder} />
                 </Select.Trigger>
                 <Select.IndicatorGroup>
                   <Select.Indicator />

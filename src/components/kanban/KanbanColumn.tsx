@@ -19,6 +19,7 @@ import { Column } from '../../types';
 import { Flex } from '@chakra-ui/react';
 import DraggableTaskCard from './DraggableTaskCard';
 import { memo } from 'react';
+import { colors } from '@/utils/const';
 
 interface KanbanColumnProps {
   column: Column;
@@ -48,7 +49,8 @@ const KanbanColumn = memo(({ column }: KanbanColumnProps) => {
 
   return (
     <Box 
-      bg={isOver ? "green.50" : "gray.50"} 
+      bg={isOver ? "green.50" : "white"} 
+      _dark={{bg:isOver ? "green.950/30" : colors.bgCard}}
       borderRadius="md"
       // h="full"
       display="flex"
@@ -57,17 +59,17 @@ const KanbanColumn = memo(({ column }: KanbanColumnProps) => {
       <Box 
         p={4} 
         borderTopRadius="md"
-        bg="white"
+        bg={{base:"white", _dark:colors.bgCard}}
         borderBottomWidth="1px"
-        borderBottomColor="gray.200"
+        borderBottomColor={{base:"gray.200", _dark:"gray.700"}}
       >
         <Flex alignItems="center">
-          <Heading size="sm" color={`${colorScheme}.600`}>
+          <Heading fontWeight={"bold"} size="sm" color={`${colorScheme}.600`}>
             {column.title}
           </Heading>
           <Badge 
             ml={2} 
-            colorScheme={colorScheme}
+            colorPalette={colorScheme}
             borderRadius="full"
           >
             {column.tasks.length}

@@ -79,7 +79,8 @@ const ProjectSettingsModal = ({ isOpen, onClose, project }: ProjectSettingsModal
                     <Text>{project.description || "No description"}</Text>
                   </Box>
                   <Button 
-                    colorScheme="brand" 
+                    bg="#30BFCD"
+                    fontWeight="bold"
                     mt={2} 
                     onClick={handleEditClick}
                   >
@@ -91,7 +92,8 @@ const ProjectSettingsModal = ({ isOpen, onClose, project }: ProjectSettingsModal
                     Danger Zone: Actions here cannot be undone.
                   </Text>
                   <Button 
-                    colorScheme="red" 
+                    bg="red" 
+                    fontWeight="bold"
                     onClick={handleDelete}
                   >
                     Delete Project
@@ -101,7 +103,7 @@ const ProjectSettingsModal = ({ isOpen, onClose, project }: ProjectSettingsModal
             </Dialog.Body>
             <Dialog.Footer>
               <Dialog.ActionTrigger asChild>
-                <Button variant="ghost" mr={3} >
+                <Button variant="ghost" mr={3} fontWeight="bold" >
                   Cancel
                 </Button>
               </Dialog.ActionTrigger>
