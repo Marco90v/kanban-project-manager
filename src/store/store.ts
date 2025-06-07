@@ -1,6 +1,7 @@
 import { ProjectFormValues, TaskFormValues } from '@/schema/schema';
 import { Board } from '@/types';
 import { createBoardFromTasks } from '@/utils/helpers';
+import { DragEndEvent } from '@dnd-kit/core';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 
@@ -27,6 +28,7 @@ interface StoreState {
   getTasks: (id: string) => Board;
 
   setBoards: (string: string) => void;
+  updateStatusTask: (event:DragEndEvent) => void;
 }
 
 export const useMyStore = create<StoreState>()(
@@ -67,6 +69,16 @@ export const useMyStore = create<StoreState>()(
         const board = createBoardFromTasks(id, task);
         // set((state) => ({ ...state, Boards: [...state.Boards.filter(b => b.projectId !== id), board] }));
         set((state) => ({ ...state, Boards: board }));
+      },
+
+      updateStatusTask: (event) => {
+        const { active, over } = event;
+        if(!over || active.data.current?.status[0] === over?.id) return;
+        const data = active.data.current as TaskFormValues;
+        const newStatus = [over.id] as string[];
+        data.status = newStatus;
+        set((state) => ({ ...state, Tasks: state.Tasks.map(t => t.id === data.id ? data : t) }));
+        if(data.projectId) get().setBoards(data.projectId);
       },
 
     }),

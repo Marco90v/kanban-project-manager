@@ -31,38 +31,25 @@ function Board({projectId}:BoardProps) {
 
   const sensors = useSensors(mouseSensor, touchSensor);
 
-  const { boards, setBoards, updateTask } = useMyStore(
+  const { boards, setBoards, updateStatusTask } = useMyStore(
     useShallow( (state => ({
       boards: state.Boards,
       setBoards: state.setBoards,
       updateTask: state.updateTask,
+      updateStatusTask: state.updateStatusTask,
     })))
   );
 
   useEffect(() => {
-    getBoard()
+    if (projectId) setBoards(projectId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
-  const getBoard = useCallback(() => {
-    if(projectId){
-      setBoards(projectId);
-    }
-  }, [projectId, setBoards]);
-
   const handleDragEnd = useCallback(
     (event: DragEndEvent) => {
-      const { active, over } = event;
-      if(!over || active.data.current?.status[0] === over?.id) return;
-      const data = active.data.current as TaskFormValues;
-      const newStatus = [over.id] as string[];
-      data.status = newStatus;
-      updateTask(data);
-      getBoard();
-    },[getBoard, updateTask]
+      updateStatusTask(event);
+    },[updateStatusTask]
   );
-
-  
 
   return (
     <Box h="full" overflowX={{ base: 'auto', lg: 'visible' }}>
