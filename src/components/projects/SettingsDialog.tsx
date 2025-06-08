@@ -1,61 +1,33 @@
-import { Button, Tabs, Text, Box, Dialog, CloseButton } from '@chakra-ui/react';
-import { Project } from '@/types';
-import { useModalStore } from '@/store/modalStore';
-import { useShallow } from 'zustand/shallow';
-import ProjectBodyModal from '../ProjectBodyModal';
+import { ProjectFormValues } from "@/types";
+import { Box, Button, CloseButton, Dialog, Tabs, Text } from "@chakra-ui/react"
 
-interface ProjectSettingsModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  project: Project;
+interface SettingsDialogProps {
+  open: boolean;
+  onToggle: () => void;
+  onToggleEdit: () => void;
+  onToggleDelete: () => void;
+  project: ProjectFormValues | undefined;
 }
 
-const ProjectSettingsModal = ({ isOpen, onClose, project }: ProjectSettingsModalProps) => {
-
-  const { setModal, setOpen:sOpen, setId, setType, setRedirect } = useModalStore(
-    useShallow( (state => ({
-      setModal: state.setModal,
-      setOpen: state.setOpen,
-      setId: state.setId,
-      setType: state.setType,
-      setRedirect: state.setRedirect,
-    })))
-  );
+const SettingsDialog = ({open, onToggle, project, onToggleEdit, onToggleDelete}:SettingsDialogProps) => {
 
   const handleDelete = async () => {
-    if(project.id){
-      setModal({
-        title: 'Delete Project',
-        body: <ProjectBodyModal />,
-      });
-      setRedirect('/dashboard');
-      setType('project');
-      setId(project.id);
-      sOpen(true);
-      onClose();
-    }
+    onToggleDelete();
+    onToggle();
   };
 
   const handleEditClick = () => {
-    if(project.id){
-      setModal({
-        title: 'Edit Project',
-        body: <ProjectBodyModal project={project} />,
-      });
-      setType('project');
-      sOpen(true);
-      onClose();
-    }
+    onToggleEdit();
+    onToggle();
+  };
+
+  const onOpenChange = () => {
+    onToggle();
   };
 
   return (
     <>
-      <Dialog.Root lazyMount open={isOpen} onOpenChange={onClose}>
-        {/* <Dialog.Trigger asChild>
-          <Button variant="outline" size="sm">
-            {isOpen ? "Close" : "Open"} Dialog
-          </Button>
-        </Dialog.Trigger> */}
+      <Dialog.Root lazyMount open={open} onOpenChange={onOpenChange}>
         <Dialog.Positioner>
           <Dialog.Content>
             <Dialog.Header>
@@ -72,11 +44,11 @@ const ProjectSettingsModal = ({ isOpen, onClose, project }: ProjectSettingsModal
                 <Tabs.Content value='general'>
                   <Box mb={4}>
                     <Text fontWeight="semibold">Project Name:</Text>
-                    <Text>{project.name}</Text>
+                    <Text>{project?.name}</Text>
                   </Box>
                   <Box mb={4}>
                     <Text fontWeight="semibold">Description:</Text>
-                    <Text>{project.description || "No description"}</Text>
+                    <Text>{project?.description || "No description"}</Text>
                   </Box>
                   <Button 
                     bg="#30BFCD"
@@ -107,14 +79,6 @@ const ProjectSettingsModal = ({ isOpen, onClose, project }: ProjectSettingsModal
                   Cancel
                 </Button>
               </Dialog.ActionTrigger>
-              {/* <Button
-                colorScheme="brand" 
-                type="submit"
-                loading={false}
-                // onClick={handleSubmit(onSubmit)}
-              >
-                Save Changes
-              </Button> */}
             </Dialog.Footer>
             <Dialog.CloseTrigger asChild>
               <CloseButton size="sm" />
@@ -123,7 +87,7 @@ const ProjectSettingsModal = ({ isOpen, onClose, project }: ProjectSettingsModal
         </Dialog.Positioner>
       </Dialog.Root>
     </>
-  );
-};
+  )
+}
 
-export default ProjectSettingsModal;
+export default SettingsDialog

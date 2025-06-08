@@ -1,4 +1,4 @@
-import { TaskFormValues } from "@/schema/schema";
+import { TaskFormValues } from "@/types";
 import { Board } from "@/types";
 
 export const generateId = (): string => {

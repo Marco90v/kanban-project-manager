@@ -1,23 +1,12 @@
-import { Box, Heading, Text, SimpleGrid, Button, Flex } from '@chakra-ui/react';
+import { Box, Heading, Text, SimpleGrid, Button, Flex, useDisclosure } from '@chakra-ui/react';
 import { PlusCircle } from 'lucide-react';
 import ProjectCard from '@/components/projects/ProjectCard';
-import { useModalStore } from '@/store/modalStore';
 import { useShallow } from 'zustand/shallow';
-import ProjectBodyModal from '@/components/ProjectBodyModal';
-import ModalProject from '@/components/ModalProject';
 import { useMyStore } from '@/store/store';
 import { colors } from '@/utils/const';
+import ProjectDialog from '@/components/projects/ProjectDialog';
 
 const Dashboard = () => {
-
-  const { setModal, setOpen:sOpen, setIsCreating, setType } = useModalStore(
-    useShallow( (state => ({
-      setModal: state.setModal,
-      setOpen: state.setOpen,
-      setIsCreating: state.setIsCreating,
-      setType: state.setType,
-    })))
-  );
 
   const { projects } = useMyStore(
     useShallow( (state => ({
@@ -25,32 +14,9 @@ const Dashboard = () => {
     })))
   );
 
+  const {open, onToggle} = useDisclosure();
 
-  const handleAddProject = () => {
-    setModal({
-      title: 'Create New Project',
-      body: <ProjectBodyModal />,
-    });
-    setType('project');
-    setIsCreating(true);
-    sOpen(true);
-  };
-
-  // if (isLoading && projects.length === 0) {
-  //   // return <LoadingSpinner size="xl" />;
-  //   return(
-  //     <Container maxW="100vw" h="100vh" p={0} centerContent>
-  //       <VStack 
-  //         wordSpacing={8}
-  //         w={{ base: "90%", md: "450px" }}
-  //         justify="center"
-  //         h="100%"
-  //       >
-  //         <Spinner size='xl' />
-  //       </VStack>
-  //     </Container>
-  //   )
-  // }
+  const handleAddProject = () => onToggle();
 
   return (
     <Box p={{ base: 4, md: 6 }}>
@@ -67,9 +33,6 @@ const Dashboard = () => {
         </Box>
 
         <Button 
-          // colorScheme="brand" 
-          // bg={{base:"#E6F8FA", _dark:"#30BFCD"}}
-          // color={{base:"#30BFCD", _dark:"white"}}
           bg={colors.brand500}
           color="white"
           fontWeight="bold"
@@ -108,7 +71,7 @@ const Dashboard = () => {
         </SimpleGrid>
       )}
 
-      <ModalProject />
+      <ProjectDialog open={open} onToggle={onToggle} isCreating={true} />
       
     </Box>
   );

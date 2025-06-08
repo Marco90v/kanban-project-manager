@@ -1,8 +1,6 @@
-import { TaskFormValues } from "@/schema/schema";
-import { useModalStore } from "@/store/modalStore";
+import { TaskFormValues } from "@/types";
 import { Field, Fieldset, ListCollection, Portal, Select } from "@chakra-ui/react";
 import { Controller, useFormContext } from "react-hook-form";
-import { useShallow } from "zustand/shallow";
 
 interface Props {
   name: 'status' | 'priority';
@@ -11,19 +9,15 @@ interface Props {
     value: string;
     label: string;
   } >
+  ref: React.RefObject<HTMLDivElement | null>;
   placeholder?: string;
 }
 
-function ControllerSelect({name, label, selects, placeholder=""}:Props) {
-  const { contentRef } = useModalStore(
-    useShallow( (state => ({
-      contentRef: state.contentRef,
-    })))
-  );
+function ControllerSelect({name, label, selects, ref, placeholder=""}:Props) {
   const { control, formState: { errors } } = useFormContext<TaskFormValues>();
   return (
     <Fieldset.Content>
-      <Field.Root invalid={!!errors.status} required>
+      <Field.Root invalid={!!errors[name]} required>
         <Field.Label>{label}<Field.RequiredIndicator /></Field.Label>
         <Controller
           control={control}
@@ -46,7 +40,7 @@ function ControllerSelect({name, label, selects, placeholder=""}:Props) {
                   <Select.Indicator />
                 </Select.IndicatorGroup>
               </Select.Control>
-              <Portal container={contentRef}>
+              <Portal container={ref}>
                 <Select.Positioner>
                   <Select.Content>
                     {selects.items.map((framework) => (
@@ -61,7 +55,7 @@ function ControllerSelect({name, label, selects, placeholder=""}:Props) {
             </Select.Root>
           )}
         />      
-        <Field.ErrorText>{errors.status?.message}</Field.ErrorText>
+        <Field.ErrorText>{errors[name]?.message}</Field.ErrorText>
       </Field.Root>
     </Fieldset.Content>
   );

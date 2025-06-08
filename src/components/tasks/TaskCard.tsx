@@ -1,64 +1,38 @@
-import { Box, Heading, Text, Flex, Badge, Menu, IconButton, Button, Portal } from '@chakra-ui/react';
+import { Box, Heading, Text, Flex, Badge, Menu, IconButton, Button, Portal, useDisclosure } from '@chakra-ui/react';
 import { MoreVertical, Edit, Trash } from 'lucide-react';
-import { Task } from '../../types';
-import { useModalStore } from '@/store/modalStore';
-import { useShallow } from 'zustand/shallow';
-import TaskBodyModal from '@/components/TaskBodyModal';
 import { memo } from 'react';
 import { colors } from '@/utils/const';
+import TaskDialog from '@/components/tasks/TaskDialog';
+import TaskDelete from '@/components/tasks/TaskDelete';
+import { TaskFormValues } from '@/types';
 
 interface TaskCardProps {
-  task: Task;
-  // isDragging?: boolean;
+  task: TaskFormValues;
 }
 
 const TaskCard = memo(({ task }: TaskCardProps) => {
-  // console.log("TaskCard", task);
-  const { setModal, setOpen:sOpen, setId, setType } = useModalStore(
-    useShallow( (state => ({
-      setModal: state.setModal,
-      setOpen: state.setOpen,
-      setId: state.setId,
-      setType: state.setType,
-    })))
-  );
+
+  const {open:openEdit, onToggle:onToggleEdit} = useDisclosure();
+  const {open:openDelete, onToggle:onToggleDelete} = useDisclosure();
 
   const handleEditClick = () => {
-    setModal({
-      title: 'Edit Task',
-      body: <TaskBodyModal task={task} />,
-    });
-    setType('task');
-    sOpen(true);
+    onToggleEdit();
   };
   
   const handleDelete = async () => {
-    setModal({
-      title: 'Delete Task',
-      body: <TaskBodyModal task={task} />,
-    });
-    setId(task.id);
-    setType('task');
-    sOpen(true);
+    onToggleDelete();
   };
-
-  // const priorityColor = getPriorityColor(task.priority);
 
   return (
     <>
       <Box
-        // bg="white"
         bg={{base:"white", _dark:colors.bgDark}}
         borderRadius="md"
-        // boxShadow={false ? 'lg' : 'sm'}
         p={4}
         mb={3}
-        // opacity={isDragging ? 0.8 : 1}
-        // transform={isDragging ? 'scale(1.02)' : 'scale(1)'}
         transition="all 0.2s"
         cursor="grab"
         position="relative"
-        // _hover={{ boxShadow: 'md' }}
       >
         <Menu.Root>
           <Menu.Trigger asChild>
@@ -103,7 +77,6 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
         </Heading>
 
         {task.description && (
-          // noOfLines={2}
           <Text fontSize="sm" color="gray.600" mb={3} >
             {task.description}
           </Text>
@@ -133,6 +106,10 @@ const TaskCard = memo(({ task }: TaskCardProps) => {
             </Text>
           )}
         </Flex>
+
+        {/* Dialog */}
+        <TaskDialog open={openEdit} onToggle={onToggleEdit} task={task} /> 
+        <TaskDelete open={openDelete} onToggle={onToggleDelete} task={task} /> 
       </Box>
     </>
   );

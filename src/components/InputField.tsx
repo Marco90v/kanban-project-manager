@@ -1,4 +1,4 @@
-import { ProjectFormValues, TaskFormValues } from "@/schema/schema";
+import { ProjectFormValues, TaskFormValues } from "@/types";
 import { Field, Fieldset, Input } from "@chakra-ui/react";
 import { useFormContext } from "react-hook-form";
 

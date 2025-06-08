@@ -1,6 +1,6 @@
 import { z } from 'zod';
-export type ProjectFormValues = z.infer<typeof projectSchema>;
-export type TaskFormValues = z.infer<typeof taskSchema>;
+// export type ProjectFormValues = z.infer<typeof projectSchema>;
+// export type TaskFormValues = z.infer<typeof taskSchema>;
 
 
 export const projectSchema = z.object({
@@ -14,10 +14,12 @@ export const taskSchema = z.object({
   title: z.string().min(1, 'Task title is required').max(100, 'Task title must be less than 100 characters'),
   description: z.string().max(500, 'Description must be less than 500 characters').optional(),
   // status: z.enum(['todo', 'in-progress', 'done']),
-  status: z.string({message: 'Task status is required'}).array(),
+  status: z.string({message: 'Task status is required'}).array()
+  .refine((val) => val.length > 0, {message: 'Task status is required'}),
   // status: z.string({message: 'Task status is required'}),
   // priority: z.enum(['low', 'medium', 'high']),
-  priority: z.string({message: 'Task priority is required'}).array(),
+  priority: z.string({message: 'Task priority is required'}).array()
+  .refine((val) => val.length > 0, {message: 'Task priority is required'}),
   // priority: z.string({message: 'Task priority is required'}),
   dueDate: z.string().optional(),
   assignee: z.string().optional(),

@@ -1,12 +1,13 @@
-import { Box } from "@chakra-ui/react"
 import { Navigate, Route, Routes } from "react-router"
-import Layout from "@/components/layout/Layout"
-import Dashboard from "@/pages/Dashboard"
-import { useEffect } from "react";
-import ProjectBoard from "@/pages/ProjectBoard";
-import { useMyStore } from "./store/store";
+import { lazy, Suspense, useEffect } from "react";
 import { useShallow } from "zustand/shallow";
-import { colors, mockProjects, mockTasks } from "@/utils/const";
+import { useMyStore } from "@/store/store";
+import { Box } from "@chakra-ui/react"
+import Layout from "@/components/layout/Layout"
+import { colors, mockProjects, mockTasks } from "@/utils/const";;
+import Loading from "@/components/Loading";
+const Dashboard = lazy(() => import('@/pages/Dashboard'));
+const ProjectBoard = lazy(() => import('@/pages/ProjectBoard'));
 
 function App() {
 
@@ -27,13 +28,15 @@ function App() {
 
   return (
     <Box minH="100vh" bg={{base:"gray.50", _dark:colors.bgDark}} color={{base:"gray.800", _dark:"white"}}>
-      <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Navigate to="/dashboard" replace />} />
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="projects/:projectId" element={<ProjectBoard />} />
-        </Route>
-      </Routes>
+      <Suspense fallback={<Loading />}>
+        <Routes>
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Navigate to="/dashboard" replace />} />
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="projects/:projectId" element={<ProjectBoard />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </Box>
   )
 }

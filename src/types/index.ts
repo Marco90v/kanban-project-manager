@@ -1,28 +1,13 @@
-export interface Project {
-  name: string;
-  id?: string;
-  createdAt?: string;
-  description?: string;
-}
+import { projectSchema, taskSchema } from "@/schema/schema";
+import { z } from "zod";
 
-export interface Task {
-  id?: string;
-  projectId?: string;
-  title: string;
-  description?: string;
-  // status: 'todo' | 'in-progress' | 'done';
-  // priority: 'low' | 'medium' | 'high';
-  status: string[];
-  priority: string[];
-  createdAt?: string;
-  dueDate?: string;
-  assignee?: string;
-}
+export type ProjectFormValues = z.infer<typeof projectSchema>;
+export type TaskFormValues = z.infer<typeof taskSchema>;
 
 export interface Column {
   id: string;
   title: string;
-  tasks: Task[];
+  tasks: TaskFormValues[];
 }
 
 export interface Board {

@@ -1,32 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router';
-import { Box, Heading, Flex, Text, Button, IconButton,Container,VStack, Spinner } from '@chakra-ui/react';
+import { Box, Heading, Flex, Text, Button, IconButton, useDisclosure } from '@chakra-ui/react';
 import { ArrowLeft, Plus, Settings } from 'lucide-react';
-import { useProjectStore } from '@/store/projectStore';
-import ProjectSettingsModal from '@/components/projects/ProjectSettingsModal';
-import { useModalStore } from '@/store/modalStore';
 import { useShallow } from 'zustand/shallow';
-import TaskBodyModal from '@/components/TaskBodyModal';
-import ModalTask from '@/components/ModalTask';
 import { Tooltip } from '@/components/ui/tooltip';
-import ModalProject from '@/components/ModalProject';
 import Board from '@/components/Board';
 import { useMyStore } from '@/store/store';
-import { ProjectFormValues } from '@/schema/schema';
+import { ProjectFormValues } from '@/types';
 import { colors } from '@/utils/const';
+import TaskDialog from '@/components/tasks/TaskDialog';
+import SettingsDialog from '@/components/projects/SettingsDialog';
+import ProjectDialog from '@/components/projects/ProjectDialog';
+import ProjectDelete from '@/components/projects/ProjectDelete';
 
 const ProjectBoard = () => {
-
-  const { setModal, setOpen:sOpen, setIsCreating, setId, setType, type } = useModalStore(
-    useShallow( (state => ({
-      setModal: state.setModal,
-      setOpen: state.setOpen,
-      setIsCreating: state.setIsCreating,
-      setId: state.setId,
-      setType: state.setType,
-      type: state.type,
-    })))
-  );
+  const navigate = useNavigate();
+  const { projectId } = useParams<{ projectId: string }>();
 
   const { projects } = useMyStore(
     useShallow( (state => ({
@@ -34,52 +23,21 @@ const ProjectBoard = () => {
     })))
   );
 
-  const { currentProject, isLoading } = useProjectStore(
-    useShallow( (state => ({
-      currentProject: state.currentProject,
-      isLoading: state.isLoading,
-    })))
-  );
+  const {open, onToggle} = useDisclosure();
+  const {open:openSettings, onToggle:onToggleSettings} = useDisclosure();
+  const {open:openEdit, onToggle:onToggleEdit} = useDisclosure();
+  const {open:openDelete, onToggle:onToggleDelete} = useDisclosure();
   
-  const navigate = useNavigate();
-  const { projectId } = useParams<{ projectId: string }>();
   const [project, setProject] = useState<ProjectFormValues | undefined>(undefined);
 
   useEffect(() => {
     const p = projects.find(p => p.id === projectId);
     setProject(p);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId]);
-
-  const [settingsModal, setSettingsModal] = useState(false);
-
-  if (isLoading && !currentProject) {
-    // return <LoadingSpinner size="xl" />;
-    return(
-      <Container maxW="100vw" h="100vh" p={0} centerContent>
-        <VStack 
-          wordSpacing={8}
-          w={{ base: "90%", md: "450px" }}
-          justify="center"
-          h="100%"
-        >
-          <Spinner size='xl' />
-        </VStack>
-      </Container>
-    )
-  }
+   
+  }, [projectId, projects]);
 
   const addTaks = () => {
-    if(project){
-      setModal({
-        title: 'Create New Project',
-        body: <TaskBodyModal />,
-      });
-      setType('task');
-      setId(project?.id);
-      setIsCreating(true);
-      sOpen(true);
-    }
+    onToggle();
   };
 
   return (
@@ -93,7 +51,6 @@ const ProjectBoard = () => {
       >
         <Flex alignItems="center" flexWrap="wrap" gap={2}>
           <IconButton
-            // icon={<ArrowLeft size={18} />}
             aria-label="Back to projects"
             variant="ghost"
             mr={2}
@@ -107,8 +64,6 @@ const ProjectBoard = () => {
         <Flex gap={3}>
           <Button
             onClick={addTaks}
-            // bg={{base:"#E6F8FA", _dark:"#30BFCD"}}
-            // color={{base:"#30BFCD", _dark:"white"}}
             bg={colors.brand500}
             color="white"
             fontWeight="bold"
@@ -121,7 +76,7 @@ const ProjectBoard = () => {
               aria-label="Project settings"
               variant="ghost"
               size="sm"
-              onClick={() => setSettingsModal(true)}
+              onClick={onToggleSettings}
             >
               <Settings size={18} />
             </IconButton>
@@ -134,15 +89,11 @@ const ProjectBoard = () => {
       
       {/* <KanbanBoard projectId={project?.id} /> */}
       <Board projectId={project?.id} />
-            
-      {project && <ProjectSettingsModal 
-        isOpen={settingsModal}
-        onClose={()=>setSettingsModal(false)}
-        project={project}
-      />}
 
-      {type === 'project' && <ModalProject />}
-      {type === 'task' && <ModalTask />}
+      <SettingsDialog open={openSettings} onToggle={onToggleSettings} project={project} onToggleDelete={onToggleDelete} onToggleEdit={onToggleEdit} />
+      <TaskDialog open={open} onToggle={onToggle} isCreating={true} projectId={projectId || ""} />
+      <ProjectDialog open={openEdit} onToggle={onToggleEdit} isCreating={false} project={project} />
+      {project && <ProjectDelete open={openDelete} onToggle={onToggleDelete} project={project} redirect='/dashboard' />}
     </Box>
   );
 };

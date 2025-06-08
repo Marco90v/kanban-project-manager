@@ -1,4 +1,4 @@
-import { ProjectFormValues, TaskFormValues } from '@/schema/schema';
+import { ProjectFormValues, TaskFormValues } from '@/types';
 import { Board } from '@/types';
 import { createBoardFromTasks } from '@/utils/helpers';
 import { DragEndEvent } from '@dnd-kit/core';
@@ -24,7 +24,7 @@ interface StoreState {
   setTasks: (tasks: TaskFormValues[]) => void;
   addTask: (task: TaskFormValues) => void;
   updateTask: (task: TaskFormValues) => void;
-  deleteTask: (id: string) => void;
+  deleteTask: (taskId: string, projectId: string) => void;
   getTasks: (id: string) => Board;
 
   setBoards: (string: string) => void;
@@ -51,14 +51,29 @@ export const useMyStore = create<StoreState>()(
         ]
       })), 
       updateProject: (project) => set((state) => ({ ...state, Projects: state.Projects.map(p => p.id === project.id ? project : p) })),
-      deleteProject: (id) => set((state) => ({ ...state, Projects: state.Projects.filter(p => p.id !== id) })),
+      deleteProject: (id) => set((state) => (
+        {
+          ...state,
+          Projects: state.Projects.filter(p => p.id !== id),
+          Tasks: state.Tasks.filter(t => t.projectId !== id),
+        }
+      )),
       getProjects: () => get().Projects,
       setProjectId: (id) => set((state) => ({ ...state, projectId: id })),
 
       setTasks: (tasks) => set((state) => ({ ...state, Tasks: tasks })),
-      addTask: (task) => set((state) => ({ ...state, Tasks: [...state.Tasks, task] })),
-      updateTask: (task) => set((state) => ({ ...state, Tasks: state.Tasks.map(t => t.id === task.id ? task : t) })),
-      deleteTask: (id) => set((state) => ({ ...state, Tasks: state.Tasks.filter(t => t.id !== id) })),
+      addTask: (task) => {
+        set((state) => ({ ...state, Tasks: [...state.Tasks, task] }))
+        if (task.projectId) get().setBoards(task.projectId); 
+      },
+      updateTask: (task) => {
+        set((state) => ({ ...state, Tasks: state.Tasks.map(t => t.id === task.id ? task : t) }))
+        if (task.projectId) get().setBoards(task.projectId); 
+      },
+      deleteTask: (taskId, projectId) => {
+        set((state) => ({ ...state, Tasks: state.Tasks.filter(t => t.id !== taskId) }))
+        if (projectId) get().setBoards(projectId);
+      },
       getTasks: (id) => {
         const task = get().Tasks.filter(t => t.projectId === id);
         return createBoardFromTasks(id, task);

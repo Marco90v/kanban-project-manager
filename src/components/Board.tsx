@@ -4,7 +4,7 @@ import { useCallback, useEffect } from "react";
 import { useShallow } from "zustand/shallow";
 import KanbanColumn from "./kanban/KanbanColumn";
 import { closestCenter, DndContext, DragEndEvent, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
-import { TaskFormValues } from "@/schema/schema";
+// import { TaskFormValues } from "@/schema/schema";
 // import { restrictToHorizontalAxis, snapCenterToCursor } from "@dnd-kit/modifiers";
 
 interface BoardProps {

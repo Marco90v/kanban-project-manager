@@ -1,4 +1,4 @@
-import { ProjectFormValues, TaskFormValues } from "@/schema/schema";
+import { ProjectFormValues, TaskFormValues } from "@/types";
 
 // Mock data
 export const mockProjects: ProjectFormValues[] = [
