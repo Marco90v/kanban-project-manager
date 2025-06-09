@@ -33,7 +33,7 @@ const KanbanColumn = memo(({ column }: KanbanColumnProps) => {
 
   return (
     <Box 
-      bg={isOver ? "green.50" : "gray.50"}
+      bg={isOver ? "green.50" : "transparent"}
       _dark={{bg:isOver ? "green.950/30" : colors.bgCard}}
       borderRadius="md"
       display="flex"
@@ -54,6 +54,7 @@ const KanbanColumn = memo(({ column }: KanbanColumnProps) => {
             ml={2} 
             colorPalette={colorScheme}
             borderRadius="full"
+            fontWeight="bold"
           >
             {column.tasks.length}
           </Badge>

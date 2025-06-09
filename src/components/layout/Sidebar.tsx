@@ -26,7 +26,15 @@ const Sidebar = () => {
   const sidebarContent = (
     <VStack align="stretch" gap={6} py={6}>
       <VStack align="stretch" px={4}>
-        <Heading size="sm" color={{_dark:"gray.200", base:"gray.500"}} mb={2} pl={2}>MENU</Heading>
+        <Heading
+          size="md"
+          mb={2}
+          pl={2}
+          fontWeight="bold"
+          color={{_dark:"gray.200", base:"gray.500"}}
+        >
+          MENU
+        </Heading>
         
         <VStack align="stretch" gap={1}>
           <SidebarItem 
@@ -58,7 +66,15 @@ const Sidebar = () => {
       
       {projects.length > 0 && (
         <VStack align="stretch" px={4}>
-          <Heading size="sm" color={{_dark:"gray.200", base:"gray.500"}} mb={2} pl={2}>PROJECTS</Heading>
+          <Heading
+            size="md"
+            mb={2}
+            pl={2}
+            fontWeight="bold"
+            color={{_dark:"gray.200", base:"gray.500"}}
+          >
+            PROJECTS
+          </Heading>
           
           <VStack align="stretch" gap={1}>
             {projects.map(project => (

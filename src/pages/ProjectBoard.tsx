@@ -58,7 +58,7 @@ const ProjectBoard = () => {
           >
             <ArrowLeft size={18} />
           </IconButton>
-          <Heading size="lg">{project?.name}</Heading>
+          <Heading size="3xl" fontWeight="bold">{project?.name}</Heading>
         </Flex>
 
         <Flex gap={3}>
@@ -85,7 +85,7 @@ const ProjectBoard = () => {
         </Flex>
       </Flex>
       
-      <Text color="gray.600" mb={6}>{project?.description}</Text>
+      <Text color="gray.600" fontWeight="semibold" mb={6}>{project?.description}</Text>
       
       <Board projectId={project?.id} />
 

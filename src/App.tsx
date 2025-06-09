@@ -27,7 +27,7 @@ function App() {
   }, []);
 
   return (
-    <Box minH="100vh" bg={{base:"gray.50", _dark:colors.bgDark}} color={{base:"gray.800", _dark:"white"}}>
+    <Box minH="100vh" bg={{base:"cyan.50/50", _dark:colors.bgDark}} color={{base:"gray.800", _dark:"white"}} overflow="hidden">
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route path="/" element={<Layout />}>
