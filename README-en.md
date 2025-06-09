@@ -6,7 +6,7 @@ Hi! I'm Marco, a front-end developer passionate about building intuitive and res
 
 **Kanban Project Manager** is a fully functional Kanban-style task management app. I built it from scratch using React, TypeScript, Zustand, and several modern libraries to manage drag-and-drop, state, theming, and form validation. It serves as both a technical challenge and a portfolio piece, demonstrating my ability to build modular, maintainable, and scalable front-end projects.
 
-### Screenshots
+### 🖼️ Screenshots
 
 ![Dashboard](./screenshots/dashboard.png)
 ![New Project](./screenshots/newProject.png)

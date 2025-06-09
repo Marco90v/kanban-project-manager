@@ -6,7 +6,7 @@ Hola! Soy Marco, desarrollador front-end apasionado por crear aplicaciones web i
 
 **Kanban Project Manager** es una aplicación funcional de gestión de tareas estilo Kanban. La desarrollé desde cero utilizando React, TypeScript, Zustand y diversas librerías modernas para gestionar drag-and-drop, estado, theming y validación de formularios. Es tanto un reto técnico como una pieza clave de mi portafolio.
 
-### Captura de pantalla
+### 🖼️ Captura de pantalla
 
 ![Dashboard](./screenshots/dashboard.png)
 ![New Project](./screenshots/newProject.png)
