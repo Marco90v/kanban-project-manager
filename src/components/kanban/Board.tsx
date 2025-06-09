@@ -1,11 +1,9 @@
-import { useMyStore } from "@/store/store";
-import { Box,SimpleGrid, useBreakpointValue } from "@chakra-ui/react";
 import { useCallback, useEffect } from "react";
+import { Box,SimpleGrid, useBreakpointValue } from "@chakra-ui/react";
 import { useShallow } from "zustand/shallow";
-import KanbanColumn from "./kanban/KanbanColumn";
+import { useMyStore } from "@/store/store";
+import KanbanColumn from "@/components/kanban/KanbanColumn";
 import { closestCenter, DndContext, DragEndEvent, MouseSensor, TouchSensor, useSensor, useSensors } from "@dnd-kit/core";
-// import { TaskFormValues } from "@/schema/schema";
-// import { restrictToHorizontalAxis, snapCenterToCursor } from "@dnd-kit/modifiers";
 
 interface BoardProps {
   projectId: string | undefined;
@@ -65,10 +63,7 @@ function Board({projectId}:BoardProps) {
         sensors={sensors}
         collisionDetection={closestCenter}
         onDragEnd={handleDragEnd}
-        // modifiers={[snapCenterToCursor, restrictToHorizontalAxis]}
        >
-        {/* {parent === null ? draggableMarkup : null} */}
-
         {
           boards?.columns.map((column) => (
             <KanbanColumn 

@@ -19,6 +19,8 @@ interface ProjectDialogoProps {
 const initialProject = {
   name: '',
   description: '',
+  createdAt: new Date().toISOString(),
+  id: '',
 }
 
 const ProjectDialog = ({open, onToggle, isCreating=true, project}:ProjectDialogoProps) => {

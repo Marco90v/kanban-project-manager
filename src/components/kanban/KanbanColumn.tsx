@@ -1,25 +1,10 @@
-import {
-  Box,
-  Heading,
-  Text,
-  Badge,
-} from '@chakra-ui/react';
-import { 
-  // DndContext, 
-  // DragEndEvent,
-  // MouseSensor,
-  // TouchSensor,
-  useDroppable,
-  // useSensor,
-  // useSensors
-} from '@dnd-kit/core';
-import { Column } from '../../types';
-// import { useProjectStore } from '../../store/projectStore';
-// import SortableTaskList from './SortableTaskList';
-import { Flex } from '@chakra-ui/react';
-import DraggableTaskCard from './DraggableTaskCard';
 import { memo } from 'react';
+import { Box, Heading, Text, Badge } from '@chakra-ui/react';
+import { Flex } from '@chakra-ui/react';
+import { useDroppable } from '@dnd-kit/core';
+import DraggableTaskCard from '@/components/kanban/DraggableTaskCard';
 import { colors } from '@/utils/const';
+import { Column } from '@/types';
 
 interface KanbanColumnProps {
   column: Column;
@@ -42,24 +27,22 @@ const KanbanColumn = memo(({ column }: KanbanColumnProps) => {
 
   const {isOver, setNodeRef} = useDroppable({
     id: column.id,
-    // data: column,
   });
 
   const colorScheme = getColumnColor(column.id);
 
   return (
     <Box 
-      bg={isOver ? "green.50" : "white"} 
+      bg={isOver ? "green.50" : "gray.50"}
       _dark={{bg:isOver ? "green.950/30" : colors.bgCard}}
       borderRadius="md"
-      // h="full"
       display="flex"
       flexDirection="column"
     >
       <Box 
         p={4} 
         borderTopRadius="md"
-        bg={{base:"white", _dark:colors.bgCard}}
+        bg={{base:"white", _dark:"gray.800"}}
         borderBottomWidth="1px"
         borderBottomColor={{base:"gray.200", _dark:"gray.700"}}
       >
@@ -80,8 +63,6 @@ const KanbanColumn = memo(({ column }: KanbanColumnProps) => {
       <Box 
         p={3} 
         flex="1" 
-        // overflowY="auto"
-        // maxH={{ base: 'auto', md: 'calc(100vh - 240px)' }}
       >
         <div ref={setNodeRef} style={{height:'100%'}}>
           {column.tasks.map(task => (

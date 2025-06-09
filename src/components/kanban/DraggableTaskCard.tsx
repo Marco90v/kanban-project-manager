@@ -1,12 +1,12 @@
 import { memo } from 'react';
 import { CSS } from '@dnd-kit/utilities';
 import TaskCard from '@/components/tasks/TaskCard';
-import { Task } from '@/types';
 import { useDraggable } from '@dnd-kit/core';
 import { Box } from '@chakra-ui/react';
+import { TaskFormValues } from '@/types';
 
 interface DraggableTaskCardProps {
-  task: Task;
+  task: TaskFormValues;
 }
 
 const DraggableTaskCard = memo (({ task }: DraggableTaskCardProps) => {

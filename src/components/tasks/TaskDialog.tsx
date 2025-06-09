@@ -28,7 +28,7 @@ const initialTask = {
   assignee: '',
   id: '',
   projectId: '',
-  createdAt: '',
+  createdAt: new Date().toISOString(),
 }
 
 const TaskDialog = ({open, onToggle, projectId, isCreating=false, task}:TaskDialogoProps) => {

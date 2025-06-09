@@ -4,7 +4,7 @@ import { Box, Heading, Flex, Text, Button, IconButton, useDisclosure } from '@ch
 import { ArrowLeft, Plus, Settings } from 'lucide-react';
 import { useShallow } from 'zustand/shallow';
 import { Tooltip } from '@/components/ui/tooltip';
-import Board from '@/components/Board';
+import Board from '@/components/kanban/Board';
 import { useMyStore } from '@/store/store';
 import { ProjectFormValues } from '@/types';
 import { colors } from '@/utils/const';
@@ -87,7 +87,6 @@ const ProjectBoard = () => {
       
       <Text color="gray.600" mb={6}>{project?.description}</Text>
       
-      {/* <KanbanBoard projectId={project?.id} /> */}
       <Board projectId={project?.id} />
 
       <SettingsDialog open={openSettings} onToggle={onToggleSettings} project={project} onToggleDelete={onToggleDelete} onToggleEdit={onToggleEdit} />

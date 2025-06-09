@@ -4,7 +4,7 @@ export const projectSchema = z.object({
   name: z.string().min(1, 'Project name is required').max(100, 'Project name must be less than 100 characters'),
   description: z.string().max(500, 'Description must be less than 500 characters').optional(),
   id: z.string().optional(),
-  createdAt: z.string().optional(),
+  createdAt: z.string(),
 });
 
 export const taskSchema = z.object({
@@ -18,5 +18,5 @@ export const taskSchema = z.object({
   assignee: z.string().optional(),
   id: z.string().optional(),
   projectId: z.string().optional(),
-  createdAt: z.string().optional(),
+  createdAt: z.string(),
 });
