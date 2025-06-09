@@ -21,7 +21,8 @@ const ProjectDelete = ({open, onToggle, project, redirect}:ProjectDeleteProps) =
     })))
   );
 
-  const onClose = () => {
+  const onClose = (e?: React.MouseEvent) => {
+    e?.stopPropagation();
     onToggle();
   };
 
@@ -32,8 +33,12 @@ const ProjectDelete = ({open, onToggle, project, redirect}:ProjectDeleteProps) =
     if(redirect) navigate(redirect);
   };
 
+  const onOpenChange = () => {
+    onToggle();
+  };
+
   return (
-    <Dialog.Root lazyMount open={open}  >
+    <Dialog.Root lazyMount open={open} onOpenChange={onOpenChange} >
       <Portal>
         <Dialog.Backdrop />
         <Dialog.Positioner>
