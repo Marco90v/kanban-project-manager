@@ -1,54 +1,74 @@
-# React + TypeScript + Vite
+# Kanban Project Manager
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Hola! Soy Marco, desarrollador front-end apasionado por crear aplicaciones web intuitivas y responsivas. Este proyecto es una iniciativa personal que busca mostrar mis habilidades prácticas en desarrollo front-end moderno, enfocándome en funcionalidades reales que buscan los reclutadores y equipos técnicos.
 
-Currently, two official plugins are available:
+### 🧩 Sobre el Proyecto
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+**Kanban Project Manager** es una aplicación funcional de gestión de tareas estilo Kanban. La desarrollé desde cero utilizando React, TypeScript, Zustand y diversas librerías modernas para gestionar drag-and-drop, estado, theming y validación de formularios. Es tanto un reto técnico como una pieza clave de mi portafolio.
 
-## Expanding the ESLint configuration
+### 🔍 Funcionalidades Clave
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* Movimiento de tareas con drag-and-drop (`@dnd-kit/core`)
+* Gestión de estado global predecible (Zustand)
+* Tema claro/oscuro con `next-themes`
+* Formularios validados con React Hook Form + Zod
+* Componentes de UI estilizados con Chakra UI
+* Diseño adaptable a dispositivos móviles
+* Enrutamiento con React Router v7
+* Iconografía moderna con Lucide y React Icons
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+### 🛠️ Tecnologías Utilizadas
+
+* **React 19**, **TypeScript**, **Vite**
+* **Zustand** para manejo de estado global
+* **@dnd-kit** para lógica de arrastrar y soltar
+* **Chakra UI** + **Emotion** para los estilos
+* **React Hook Form** + **Zod** para validaciones
+* **next-themes** para theming
+* **ESLint** para mantener calidad de código
+
+### 📦 Cómo Ejecutarlo Localmente
+
+```bash
+git clone https://github.com/Marco90v/kanban-project-manager.git
+cd kanban-project-manager
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Otros comandos:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+```bash
+npm run lint     # Verifica calidad del código
+npm run build    # Compilación para producción
+npm run preview  # Previsualiza la app compilada
 ```
+
+### 📁 Estructura del Proyecto
+
+```
+src/
+├── components/      # Componentes reutilizables
+├── pages/           # Paginas
+├── types/           # Tipos de datos
+├── store/           # Estado global con Zustand
+├── schema/          # Esquemas de validación
+└── utils/           # Validaciones y funciones de utilidad
+```
+
+### 🎯 Por Qué Hice Este Proyecto
+
+Quería retarme a mí mismo con una aplicación realista que integrara:
+
+* Diseño de UI accesible
+* Arquitectura modular y escalable
+* Interacciones avanzadas (drag-and-drop)
+* Formularios con tipado seguro
+* Flujo de desarrollo completo: build, lint, preview, dev
+
+Mi meta es demostrar que puedo tomar una idea, estructurarla, escribir código limpio y entregar una solución de principio a fin.
+
+### 📬 Contáctame
+
+* Portafolio: [marcovelasquezfigarella.netlify.app](https://marcovelasquezfigarella.netlify.app/)
+* LinkedIn: [linkedin.com/in/marco90v](https://linkedin.com/in/marco90v)
