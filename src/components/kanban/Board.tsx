@@ -58,22 +58,20 @@ function Board({projectId}:BoardProps) {
         h="full"
         pb={4}
       >
-
-      <DndContext
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        onDragEnd={handleDragEnd}
-       >
-        {
-          boards?.columns.map((column) => (
-            <KanbanColumn 
-              key={column.id} 
-              column={column} 
-            />
-          ))
-        }
-      </DndContext>
-
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          {
+            boards?.columns.map((column) => (
+              <KanbanColumn 
+                key={column.id} 
+                column={column} 
+              />
+            ))
+          }
+        </DndContext>
       </SimpleGrid>
     </Box>
   )
